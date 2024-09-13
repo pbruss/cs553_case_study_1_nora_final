@@ -2,6 +2,7 @@ import gradio as gr
 from huggingface_hub import InferenceClient
 import torch
 import time
+import psutil  # Import psutil to track CPU memory usage
 from transformers import pipeline
 
 # Inference client setup
