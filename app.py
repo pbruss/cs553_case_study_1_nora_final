@@ -29,6 +29,8 @@ def respond(
         history = []
 
     start_time = time.time()  # Start time tracking
+    process = psutil.Process()
+    initial_memory = process.memory_info().rss  # Memory before in bytes
 
     if use_local_model:
         # local inference 
@@ -88,8 +90,12 @@ def respond(
 
     # Calculate elapsed time after response generation
     end_time = time.time()
+    final_memory = process.memory_info().rss # Memory usage i
+    memory_used = final_memory - initial_memory
     elapsed_time = end_time - start_time
-    final_response = f"{response}\n\n(Generated in {elapsed_time:.2f} seconds)"
+
+    # Append the memory usage and elapsed time to the response
+    final_response = f"{response}\n\n(Generated in {elapsed_time:.2f} seconds, Memory used: {memory_used:.2f} bytes)"
     
     yield history + [(message, final_response)]  # Yield final response with elapsed time
 
