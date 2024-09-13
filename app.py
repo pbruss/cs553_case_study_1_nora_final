@@ -58,20 +58,6 @@ def respond(
             response += token
             yield history + [(message, response)]  # Yield history + new response
 
-        end_time = time.time()
-        memory_after = process.memory_info().rss  # Memory after in bytes
-
-        elapsed_time = end_time - start_time
-        memory_usage_diff = memory_after - memory_before  # Memory usage difference in bytes
-
-        # Final yield with all information
-        final_output = (
-            f"Response: {response}\n\n"
-            f"Elapsed time: {elapsed_time:.2f} seconds\n"
-            f"Memory usage: {memory_usage_diff:.2f} bytes"
-        )
-        yield final_output
-
     else:
         # API-based inference 
         messages = [{"role": "system", "content": system_message}]
@@ -101,22 +87,19 @@ def respond(
             response += token
             yield history + [(message, response)]  # Yield history + new response
             
-        end_time = time.time()
-        memory_after = process.memory_info().rss  # Memory after in bytes
+    end_time = time.time()
+    memory_after = process.memory_info().rss  # Memory after in bytes
 
-        elapsed_time = end_time - start_time
-        memory_usage_diff = memory_after - memory_before  # Memory usage difference in bytes
+    elapsed_time = end_time - start_time
+    memory_usage_diff = memory_after - memory_before  # Memory usage difference in bytes
 
-        # Final yield with all information
-        final_output = (
-            f"Response: {response}\n\n"
-            f"Elapsed time: {elapsed_time:.2f} seconds\n"
-            f"Memory usage: {memory_usage_diff:.2f} bytes"
-        )
-        yield final_output
-
-        
-
+    # Final yield with all information
+    final_output = (
+        f"Response: {response}\n\n"
+        f"Elapsed time: {elapsed_time:.2f} seconds\n"
+        f"Memory usage: {memory_usage_diff:.2f} bytes"
+    )
+    yield final_output
 
 def cancel_inference():
     global stop_inference
