@@ -2,7 +2,6 @@ import gradio as gr
 from huggingface_hub import InferenceClient
 import torch
 import time
-import psutil  # To track CPU memory usage
 from transformers import pipeline
 
 # Inference client setup
@@ -21,9 +20,6 @@ def respond(
     top_p=0.95,
     use_local_model=False,
 ):
-    start_time = time.time()
-    process = psutil.Process()
-    memory_before = process.memory_info().rss  # Memory before in bytes
     
     global stop_inference
     stop_inference = False  # Reset cancellation flag
@@ -31,6 +27,8 @@ def respond(
     # Initialize history if it's None
     if history is None:
         history = []
+
+    start_time = time.time()  # Start time tracking
 
     if use_local_model:
         # local inference 
@@ -86,20 +84,14 @@ def respond(
             token = message_chunk.choices[0].delta.content
             response += token
             yield history + [(message, response)]  # Yield history + new response
-            
+
+
+    # Calculate elapsed time after response generation
     end_time = time.time()
-    memory_after = process.memory_info().rss  # Memory after in bytes
-
     elapsed_time = end_time - start_time
-    memory_usage_diff = memory_after - memory_before  # Memory usage difference in bytes
-
-    # Final yield with all information
-    final_output = (
-        f"Response: {response}\n\n"
-        f"Elapsed time: {elapsed_time:.2f} seconds\n"
-        f"Memory usage: {memory_usage_diff:.2f} bytes"
-    )
-    yield final_output
+    final_response = f"{response}\n\n(Generated in {elapsed_time:.2f} seconds)"
+    
+    yield history + [(message, final_response)]  # Yield final response with elapsed time
 
 def cancel_inference():
     global stop_inference
