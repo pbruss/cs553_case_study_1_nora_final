@@ -1,5 +1,5 @@
 ---
-title: Gradio Chatbot
+title: Cs553 Case Study 1 Nora Resource Test
 emoji: 💬
 colorFrom: yellow
 colorTo: purple
