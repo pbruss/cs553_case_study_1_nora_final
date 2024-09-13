@@ -93,7 +93,7 @@ def respond(
     end_time = time.time()
     final_memory = process.memory_info().rss # Memory usage i
     memory_used = final_memory - initial_memory
-    memory_in_mb = memory_used/1,048,576
+    memory_in_mb = memory_used/1048576
     elapsed_time = end_time - start_time
 
     # Append the memory usage and elapsed time to the response
