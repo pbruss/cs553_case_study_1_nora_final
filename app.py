@@ -1,6 +1,8 @@
 import gradio as gr
 from huggingface_hub import InferenceClient
 import torch
+import time
+import psutil  # To track CPU memory usage
 from transformers import pipeline
 
 # Inference client setup
@@ -19,6 +21,10 @@ def respond(
     top_p=0.95,
     use_local_model=False,
 ):
+    start_time = time.time()
+    process = psutil.Process()
+    memory_before = process.memory_info().rss  # Memory before in bytes
+    
     global stop_inference
     stop_inference = False  # Reset cancellation flag
 
@@ -52,6 +58,20 @@ def respond(
             response += token
             yield history + [(message, response)]  # Yield history + new response
 
+        end_time = time.time()
+        memory_after = process.memory_info().rss  # Memory after in bytes
+
+        elapsed_time = end_time - start_time
+        memory_usage_diff = memory_after - memory_before  # Memory usage difference in bytes
+
+        # Final yield with all information
+        final_output = (
+            f"Response: {response}\n\n"
+            f"Elapsed time: {elapsed_time:.2f} seconds\n"
+            f"Memory usage: {memory_usage_diff:.2f} bytes"
+        )
+        yield final_output
+
     else:
         # API-based inference 
         messages = [{"role": "system", "content": system_message}]
@@ -80,6 +100,22 @@ def respond(
             token = message_chunk.choices[0].delta.content
             response += token
             yield history + [(message, response)]  # Yield history + new response
+            
+        end_time = time.time()
+        memory_after = process.memory_info().rss  # Memory after in bytes
+
+        elapsed_time = end_time - start_time
+        memory_usage_diff = memory_after - memory_before  # Memory usage difference in bytes
+
+        # Final yield with all information
+        final_output = (
+            f"Response: {response}\n\n"
+            f"Elapsed time: {elapsed_time:.2f} seconds\n"
+            f"Memory usage: {memory_usage_diff:.2f} bytes"
+        )
+        yield final_output
+
+        
 
 
 def cancel_inference():
