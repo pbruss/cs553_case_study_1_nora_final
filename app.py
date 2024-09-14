@@ -16,9 +16,9 @@ def respond(
     message,
     history: list[tuple[str, str]],
     system_message="You are a friendly chatbot who always responds in the style of a therapist.",
-    max_tokens=512,
-    temperature=0.7,
-    top_p=0.95,
+    max_tokens=600,
+    temperature=0.6,
+    top_p=0.65,
     use_local_model=False,
 ):
     
@@ -169,7 +169,7 @@ custom_css = """
 # Define the interface
 with gr.Blocks(css=custom_css) as demo:
     gr.Markdown("<h1 style='text-align: center;'>🍍 NORA: Nutrition Optimization and Recommendation Assistant 🍎</h1>")
-    gr.Markdown("# 🍓 AI-driven Nutritionist (Product Demo)\nThis personal nutritionist is based on Zephyr-7b-beta, called through the Hugging Face API as well as Qwen2-0.5B. Interact with NORA using the customizable settings below, describe your nutritional needs, and let our AI assistant guide you!")
+    gr.Markdown("# 🍓 AI-driven Nutritionist (Product Demo)\nThis personal nutritionist is based on Zephyr-7b-beta (Hugging Face API-based inference as well as Qwen2-0.5B (local inference). Interact with NORA using the customizable settings below, describe your nutritional needs, and let our AI assistant guide you!")
 
     with gr.Row():
         system_message = gr.Textbox(value="You are a friendly chatbot who always responds in the style of a professional nutritionist.", label="NORA's System message", interactive=True)
