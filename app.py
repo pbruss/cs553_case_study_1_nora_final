@@ -176,9 +176,9 @@ with gr.Blocks(css=custom_css) as demo:
         use_local_model = gr.Checkbox(label="Use Local Model", value=False)
 
     with gr.Row():
-        max_tokens = gr.Slider(minimum=1, maximum=2048, value=600, step=1, label="Max new tokens", elem_classes="gr-slider")
-        temperature = gr.Slider(minimum=0.1, maximum=4.0, value=0.6, step=0.1, label="Temperature", elem_classes="gr-slider")
-        top_p = gr.Slider(minimum=0.1, maximum=1.0, value=0.65, step=0.05, label="Top-p (nucleus sampling)", elem_classes="gr-slider")
+        max_tokens = gr.Slider(minimum=1, maximum=2048, value=600, step=1, label="Max new tokens (controls the length of the response)", elem_classes="gr-slider")
+        temperature = gr.Slider(minimum=0.1, maximum=4.0, value=0.6, step=0.1, label="Temperature (affects the creativity and randomness of the generated response)", elem_classes="gr-slider")
+        top_p = gr.Slider(minimum=0.1, maximum=1.0, value=0.65, step=0.05, label="Top-p (nucleus sampling - balances diversity and coherence in token selection)", elem_classes="gr-slider")
 
     gr.Markdown("### Model Output 👇")
 
