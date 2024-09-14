@@ -1,5 +1,5 @@
 ---
-title: Cs553 Case Study 1 Nora Resource Test
+title: Case Study 1 - NORA
 emoji: 💬
 colorFrom: yellow
 colorTo: purple
