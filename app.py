@@ -97,7 +97,7 @@ def respond(
     elapsed_time = end_time - start_time
 
     # Append the memory usage and elapsed time to the response
-    final_response = f"{response}\n\n(Generated in {elapsed_time:.2f} seconds, Memory used: {memory_in_mb:.2f} MB)"
+    final_response = f"{response}\n\n(Generated in {elapsed_time:.2f} seconds, Memory used: {memory_in_mb:.6f} MB)"
     
     yield history + [(message, final_response)]  # Yield final response with elapsed time
 
