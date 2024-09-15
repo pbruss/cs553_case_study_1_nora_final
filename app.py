@@ -172,7 +172,7 @@ with gr.Blocks(css=custom_css) as demo:
     gr.Markdown("# 🍓 AI-driven Nutritionist (Product Demo)\nThis personal nutritionist is based on Zephyr-7b-beta (Hugging Face API-based inference as well as Qwen2-0.5B (local inference). Interact with NORA using the customizable settings below, describe your nutritional needs, and let our AI assistant guide you!")
 
     with gr.Row():
-        system_message = gr.Textbox(value="You are a friendly chatbot who always responds in the style of a professional nutritionist.", label="NORA's System message", interactive=True)
+        system_message = gr.Textbox(value="You are a friendly chatbot who always responds in the style of a professional nutritionist.", label="NORA's System message", interactive=False)
         use_local_model = gr.Checkbox(label="Use Local Model", value=False)
 
     with gr.Row():
